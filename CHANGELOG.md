@@ -1,4 +1,5 @@
 ## Changelog
+Some commit may not appear here since it fix / add little things.
 
 ### Legend :
 ❌ Removed | ✔️ Added | 💫 Fixed | ✨ Improved | 🏗️ Unfinished

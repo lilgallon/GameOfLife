@@ -26,5 +26,12 @@ class Grid:
         self.cell_color = cell_color
 
     def draw(self, screen, pygame, x, y):
+        """
+        Draws the grid with all its entities (not implemented)
+        :param screen: screen on which draw the grid
+        :param pygame: graphic lib
+        :param x: x position of the grid
+        :param y: y position of the grid
+        """
         Graphics.draw_grid(screen, pygame, x, y, self.lines, self.columns, self.cell_width, self.cell_height,
                            self.cell_thickness, self.cell_color)

@@ -28,8 +28,8 @@ Other documentation :
 
 
 ## Changelog
-Legend: ❌ Removed | ✔️ Added | 💫 Fixed | ✨ Improved
-- [See detailed changelog](README.md)
+Legend: ❌ Removed | ✔️ Added | 💫 Fixed | ✨ Improved | 🏗️ In development
+- [See detailed changelog](CHANGELOG.md)
 
 
 ## Credits
