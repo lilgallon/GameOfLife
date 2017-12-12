@@ -1,4 +1,4 @@
-# Le jeu de la vie
+# The G4me of life
 ![Version 0](https://img.shields.io/badge/Version-0-red.svg)
 
 The game of life consists in 4 rules :
@@ -13,16 +13,24 @@ The game of life consists in 4 rules :
 
 ## Documentation
 
-Libraries :
+Library used :
 - [Pygame](http://www.pygame.org)
+
+Other documentation :
 - [Game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
 
 ## Todo list
-- [ ] Basic working game 
-- [ ] 
-- [ ]
-- [ ]
+- [x] Graphics utility using pygame
+- [x] Cell class
+- [ ] Grid class
+- [ ] Law checkers
+
+
+## Changelog
+Legend: ❌ Removed | ✔️ Added | 💫 Fixed | ✨ Improved
+- [See detailed changelog](README.md)
+
 
 ## Credits
 <a href="https://www.youtube.com/watch?v=S-W0NX97DB0" target="_blank">
