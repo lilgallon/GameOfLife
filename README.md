@@ -21,9 +21,9 @@ Other documentation :
 
 
 ## Todo list
-- [x] Graphics utility using pygame
-- [x] Cell class
-- [ ] Grid class
+- [x] Graphics utility using pygame (base)
+- [x] Cell class (base)
+- [x] Grid class (base)
 - [ ] Law checkers
 
 

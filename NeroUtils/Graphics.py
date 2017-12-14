@@ -32,6 +32,25 @@ def draw_grid(screen, pygame, x, y, lines, columns, width, height, thickness, co
                                  color)
 
 
+def draw_entity_in_grid(screen, pygame, x, y, lines, columns, width, height, thickness, color, line, column):
+    """
+    Draws an entity in a grid. Uses pygame as graphic lib.
+    :param screen: screen on which draw the grid
+    :param pygame: graphic lib
+    :param x: x position of the grid
+    :param y: y position of the grid
+    :param lines: number of lines of the grid
+    :param columns: number of column of the grid
+    :param width: width of a cell in the grid
+    :param height: height of a cell in the grid
+    :param thickness: thickness of a cell in the grid (outlines)
+    :param color: color of the outline of the cells
+    :param line: line of the entity in the grid
+    :param column: column of the entity in the grid
+    """
+    pygame.draw.rect(screen, color, pygame.Rect(x + (column * width), y + (line * height), width, height))
+
+
 def draw_empty_rectangle(screen, pygame, x, y, width, height, thickness, color):
     """
     Draws an empty rectangle (only the outlines of a rectangle). Uses pygame as graphic lib.

@@ -16,8 +16,8 @@ import NeroUtils.Graphics as Graphics
 
 
 class Grid:
-    def __init__(self, lines, columns, cell_width, cell_height, cell_thickness, cell_color):
-        self.cells = [Cell]
+    def __init__(self, cells, lines, columns, cell_width, cell_height, cell_thickness, cell_color):
+        self.cells = cells
         self.lines = lines
         self.columns = columns
         self.cell_width = cell_width
@@ -35,3 +35,7 @@ class Grid:
         """
         Graphics.draw_grid(screen, pygame, x, y, self.lines, self.columns, self.cell_width, self.cell_height,
                            self.cell_thickness, self.cell_color)
+        for cell in self.cells:
+            Graphics.draw_entity_in_grid(screen, pygame, x, y, self.lines, self.columns, self.cell_width,
+                                         self.cell_height,
+                                         self.cell_thickness, self.cell_color, cell.line, cell.column)
