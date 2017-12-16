@@ -12,3 +12,7 @@ Some commit may not appear here since it fix / add little things.
 - ✔ Graphics utility
 - ✔ Cell class
 - 🏗️ Grid
+
+### Update #2 (version 0) :
+- ✔ Grid rules
+- ✔ Basic mouse interaction

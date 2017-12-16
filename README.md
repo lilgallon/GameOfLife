@@ -24,7 +24,10 @@ Other documentation :
 - [x] Graphics utility using pygame (base)
 - [x] Cell class (base)
 - [x] Grid class (base)
-- [ ] Law checkers
+- [x] Law checkers
+- [x] Basic interaction handler
+- [ ] Automatic animation
+- [ ] Advanced interaction (change the grid with the mouse / start / stop)
 
 
 ## Changelog

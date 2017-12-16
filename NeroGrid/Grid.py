@@ -11,8 +11,8 @@
                              -..__..-''                ~~--..__...----...
 """
 
-import NeroGrid.Cell as Cell
 import NeroUtils.Graphics as Graphics
+from NeroGrid.Cell import Cell
 
 
 class Grid:
@@ -39,3 +39,94 @@ class Grid:
             Graphics.draw_entity_in_grid(screen, pygame, x, y, self.lines, self.columns, self.cell_width,
                                          self.cell_height,
                                          self.cell_thickness, self.cell_color, cell.line, cell.column)
+
+    def check_rules(self):
+        new_cells = []
+        # pass parameter by reference??
+        # new_cells.extend(self.check_r1())
+        new_cells.extend(self.check_r2())
+        # new_cells.extend(self.check_r3())
+        new_cells.extend(self.check_r4())
+        self.cells = new_cells
+
+    def check_r1(self):
+        """
+        Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
+        """
+        new_cells = []
+        # useless
+        return new_cells
+
+    def check_r2(self):
+        """
+        Any live cell with two or three live neighbours lives on to the next generation.
+        """
+        new_cells = []
+        for cell in self.cells:
+            if self.count_neighbours(cell.line, cell.column) == 2 or self.count_neighbours(cell.line, cell.column) == 3:
+                new_cells.append(Cell(cell.line, cell.column))
+        self.check_cells(new_cells)
+        return new_cells
+
+    def check_r3(self):
+        """
+        Any live cell with more than three live neighbours dies, as if by overpopulation.
+        """
+        new_cells = []
+        # useless
+        return new_cells
+
+    def check_r4(self):
+        """
+        Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+        """
+        print(" ")
+        dead_cells = []
+        for line in range(0, self.lines - 1):
+            for column in range(0, self.columns - 1):
+                if not self.is_alive(line, column):
+                    dead_cells.append(Cell(line, column))
+
+        new_cells = []
+        for cell in dead_cells:
+            if self.count_neighbours(cell.line, cell.column) == 3:
+                new_cells.append(Cell(cell.line, cell.column))
+
+        return new_cells
+
+    def is_alive(self, line, column):
+        i = 0
+        found = False
+        while not found and i < len(self.cells):
+            if self.cells[i].line == line and self.cells[i].column == column:
+                found = True
+            else:
+                i = i + 1
+        return found
+
+    def count_neighbours(self, line, column):
+        """
+        Count the neighbours of the cell. Returns -1 if there is an error.
+        :param line: line of the cell
+        :param column: column of the cell
+        :return: number of neighbours of the specified cell
+        """
+        if line < 0 or line >= self.lines:
+            print("The line #" + line + " is not in the defined range. (0;" + self.lines - 1 + ")")
+            return -1
+        if column < 0 or column >= self.columns:
+            print("The column #" + column + " is not in the defined range. (0;" + self.lines - 1 + ")")
+            return -1
+        counter = 0
+        for cell in self.cells:
+            # X and Y and not Z
+            # X : line neighbour | Y : column neighbour | Z : case when the cell is counting itself as a neighbour
+            if (cell.line == line - 1 or cell.line == line or cell.line == line + 1) and (
+                    cell.column == column - 1 or cell.column == column or cell.column == column + 1) and \
+                    not (cell.line == line and cell.column == column):
+                counter = counter + 1
+        return counter
+
+    def check_cells(self, cells):
+        for cell in cells:
+            print(str(cell.line) + ";" + str(cell.column))
