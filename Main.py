@@ -17,8 +17,6 @@ from NeroGrid.Grid import Grid
 
 
 # http://www.nerdparadise.com/programming/pygame/part1
-
-
 def main():
     pygame.init()
     done = False
@@ -43,10 +41,15 @@ def main():
     font = pygame.font.Font(None, 40)
     text = font.render(str(it), 1, (0, 0, 0))
 
+    clicking = False
+    start_x = 0
+    start_y = 0
+
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:
                     grid.set_size(grid.lines + 1, grid.columns + 1)
@@ -59,6 +62,31 @@ def main():
                     it = it + 1
                     font = pygame.font.Font(None, 40)
                     text = font.render(str(it), 1, (0, 0, 0))
+                elif event.button == 3:
+                    clicking = True
+                    start_x, start_y = pygame.mouse.get_pos()
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 3:
+                    if clicking:
+                        end_x, end_y = pygame.mouse.get_pos()
+                        d_x = start_x - end_x
+                        d_y = start_y - end_y
+                        d_column, d_line = grid.convert_to_grid_pos(d_x, d_y)
+                        grid.move(d_line, d_column)
+                    clicking = False
+
+            if event.type == pygame.MOUSEMOTION:
+                if clicking:
+                    end_x, end_y = pygame.mouse.get_pos()
+                    d_x = start_x - end_x
+                    d_y = start_y - end_y
+                    d_column, d_line = grid.convert_to_grid_pos(d_x, d_y)
+                    if d_column!=0 or d_line!=0:
+                        grid.move(d_line, d_column)
+                        start_x = end_x
+                        start_y = end_y
+
             if event.type == pygame.KEYDOWN:
                 # up
                 if event.key == 273:

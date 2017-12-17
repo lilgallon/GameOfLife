@@ -157,3 +157,8 @@ class Grid:
         for cell in self.cells:
             new_cells.append(Cell(cell.line + d_lines, cell.column + d_columns))
         self.cells = new_cells
+
+    def convert_to_grid_pos(self, x, y):
+        column = int(x / self.cell_width)
+        line = int(y / self.cell_height)
+        return column, line

@@ -17,5 +17,8 @@ Some commit may not appear here since it fix / add little things.
 - ✔ Grid rules
 - ✔ Basic mouse interaction
 
-### Update #4 (version 1) :
-- 🏗️ Advanced interaction (move / zoom)
+### Update #4 (version 0) :
+- 🏗️ Advanced interaction (move with keyboard / zoom with mouse wheel / day increment with left mouse click)
+
+### Update #5 (version 0) :
+- 🏗️ Advanced interaction (move with right mouse click)

@@ -19,6 +19,9 @@ Library used :
 Other documentation :
 - [Game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
+Software used :
+- [PyCharm](https://www.jetbrains.com/pycharm/)
+
 
 ## Todo list
 - [x] Graphics utility using pygame (base)
@@ -26,6 +29,7 @@ Other documentation :
 - [x] Grid class (base)
 - [x] Law checkers
 - [x] Basic interaction handler
+- [ ] Dead cells algorithm optimization
 - [ ] Automatic animation
 - [ ] Advanced interaction (change the grid with the mouse / start / stop)
 
