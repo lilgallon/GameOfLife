@@ -16,3 +16,6 @@ Some commit may not appear here since it fix / add little things.
 ### Update #2 (version 0) :
 - ✔ Grid rules
 - ✔ Basic mouse interaction
+
+### Update #3 (version 1) :
+- 🏗️ Advanced interaction (move / zoom)

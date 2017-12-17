@@ -65,7 +65,7 @@ class Grid:
         for cell in self.cells:
             if self.count_neighbours(cell.line, cell.column) == 2 or self.count_neighbours(cell.line, cell.column) == 3:
                 new_cells.append(Cell(cell.line, cell.column))
-        self.check_cells(new_cells)
+
         return new_cells
 
     def check_r3(self):
@@ -127,6 +127,33 @@ class Grid:
                 counter = counter + 1
         return counter
 
-    def check_cells(self, cells):
-        for cell in cells:
-            print(str(cell.line) + ";" + str(cell.column))
+    def set_size(self, lines, columns):
+        """
+        Change the size (lines / columns) of the grid and adapt automatically the size of the grid (height / width)
+        :param lines: new lines
+        :param columns: new columns
+        """
+        if self.lines != lines:
+            # % vertical  =         incremented height         * 100 /           initial height
+            vertical_perc = ((self.lines - lines) * self.cell_height) * 100.0 / (self.lines * self.cell_height)
+        if self.columns != columns:
+            # % horizontal  =         incremented width         * 100 /           initial width
+            horizontal_perc = ((self.columns - columns) * self.cell_width) * 100.0 / (self.columns * self.cell_width)
+
+        print(horizontal_perc)
+        self.cell_width = self.cell_width + (self.cell_width * horizontal_perc) / 100.0
+        self.cell_height = self.cell_height + (self.cell_height * vertical_perc) / 100.0
+
+        self.lines = lines
+        self.columns = columns
+
+    def move(self, d_lines, d_columns):
+        """
+        Used to navigate in the grid by moving the entities.
+        :param d_lines: y movement (lines)
+        :param d_columns: x movement (columns)
+        """
+        new_cells = []
+        for cell in self.cells:
+            new_cells.append(Cell(cell.line + d_lines, cell.column + d_columns))
+        self.cells = new_cells

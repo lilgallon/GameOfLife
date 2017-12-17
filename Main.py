@@ -26,12 +26,12 @@ def main():
     grid_x = 5
     grid_y = 5
     grid_columns = 20
-    grid_lines = 8
+    grid_lines = 20
     cell_width = 50
     cell_height = 50
     cell_thickness = 1
     cell_color = (0, 150, 0)
-    cells = [Cell(5, 4), Cell(5, 5), Cell(5, 6)]
+    cells = [Cell(10, 10), Cell(11, 10), Cell(9, 10), Cell(10, 9), Cell(9, 11)]
 
     grid = Grid(cells, grid_lines, grid_columns, cell_width, cell_height, cell_thickness, cell_color)
 
@@ -42,18 +42,36 @@ def main():
     it = 0
     font = pygame.font.Font(None, 40)
     text = font.render(str(it), 1, (0, 0, 0))
+
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # Grid
-                grid.check_rules()
-
-                # Text
-                it = it + 1
-                font = pygame.font.Font(None, 40)
-                text = font.render(str(it), 1, (0, 0, 0))
+                if event.button == 4:
+                    grid.set_size(grid.lines + 1, grid.columns + 1)
+                elif event.button == 5:
+                    grid.set_size(grid.lines - 1, grid.columns - 1)
+                elif event.button == 1:
+                    # Grid
+                    grid.check_rules()
+                    # Text
+                    it = it + 1
+                    font = pygame.font.Font(None, 40)
+                    text = font.render(str(it), 1, (0, 0, 0))
+            if event.type == pygame.KEYDOWN:
+                # up
+                if event.key == 273:
+                    grid.move(- 1, 0)
+                # left
+                elif event.key == 276:
+                    grid.move(0, - 1)
+                # down
+                elif event.key == 274:
+                    grid.move(1, 0)
+                #right
+                elif event.key == 275:
+                    grid.move(0, 1)
 
         # Draw
         screen.fill((255, 255, 255))
