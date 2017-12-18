@@ -34,7 +34,7 @@ def main():
     grid = Grid(cells, grid_lines, grid_columns, cell_width, cell_height, cell_thickness, cell_color)
 
     screen = pygame.display.set_mode(
-        (2 * grid_x + (grid_columns - 1) * cell_width, 2 * grid_y + (grid_lines - 1) * cell_height))
+        (2 * grid_x + grid_columns * cell_width, 2 * grid_y + grid_lines * cell_height))
     screen.fill((255, 255, 255))
 
     it = 0
@@ -56,18 +56,14 @@ def main():
                 elif event.button == 5:
                     grid.set_size(grid.lines - 1, grid.columns - 1)
                 elif event.button == 1:
-                    # Grid
-                    grid.check_rules()
-                    # Text
-                    it = it + 1
-                    font = pygame.font.Font(None, 40)
-                    text = font.render(str(it), 1, (0, 0, 0))
-                elif event.button == 3:
                     clicking = True
                     start_x, start_y = pygame.mouse.get_pos()
+                elif event.button == 3:
+                    x, y = pygame.mouse.get_pos()
+                    grid.add_cell(x, y, grid_x, grid_y)
 
             if event.type == pygame.MOUSEBUTTONUP:
-                if event.button == 3:
+                if event.button == 1:
                     if clicking:
                         end_x, end_y = pygame.mouse.get_pos()
                         d_x = start_x - end_x
@@ -100,6 +96,14 @@ def main():
                 #right
                 elif event.key == 275:
                     grid.move(0, 1)
+                #space
+                elif event.key == pygame.K_SPACE:
+                    # Grid
+                    grid.check_rules()
+                    # Text
+                    it = it + 1
+                    font = pygame.font.Font(None, 40)
+                    text = font.render(str(it), 1, (0, 0, 0))
 
         # Draw
         screen.fill((255, 255, 255))

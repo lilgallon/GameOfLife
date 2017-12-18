@@ -41,6 +41,9 @@ class Grid:
                                          self.cell_thickness, self.cell_color, cell.line, cell.column)
 
     def check_rules(self):
+        """
+        Updates the grid according to the rules.
+        """
         new_cells = []
         # pass parameter by reference??
         # new_cells.extend(self.check_r1())
@@ -80,17 +83,26 @@ class Grid:
         """
         Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
         """
-        print(" ")
         dead_cells = []
-        for line in range(0, self.lines - 1):
-            for column in range(0, self.columns - 1):
+        # Optimized algorithm for small grid
+        for line in range(0, self.lines):
+            for column in range(0, self.columns):
                 if not self.is_alive(line, column):
                     dead_cells.append(Cell(line, column))
+
+        # Optimized algorithm for huge grid
+        # For every alive cell, we look at all their neighbours to
+        # see if they are dead.
+        # for cell in self.cells:
+        #     for l_inc in range(-1, 2):
+        #         for c_inc in range(-1, 2):
+        #             if not self.is_alive(cell.line + l_inc, cell.column + c_inc):
+        #                 dead_cells.append(cell)
 
         new_cells = []
         for cell in dead_cells:
             if self.count_neighbours(cell.line, cell.column) == 3:
-                new_cells.append(Cell(cell.line, cell.column))
+                new_cells.append(cell)
 
         return new_cells
 
@@ -133,14 +145,33 @@ class Grid:
         :param lines: new lines
         :param columns: new columns
         """
+
+        # if we already have reached the minimum size OR we want to reduce the size, we cancel
+        if (self.columns == 2 or self.lines == 2) and (self.lines > lines or self.columns > columns):
+            return
+
+        if self.lines > lines:
+            line_inc = -1
+        elif self.lines < lines:
+            line_inc = 1
+        else:
+            line_inc = 0
+        if self.columns > columns:
+            column_inc = -1
+        elif self.columns < columns:
+            column_inc = 1
+        else:
+            column_inc = 0
+
         if self.lines != lines:
             # % vertical  =         incremented height         * 100 /           initial height
-            vertical_perc = ((self.lines - lines) * self.cell_height) * 100.0 / (self.lines * self.cell_height)
+            vertical_perc = ((self.lines - lines ) * self.cell_height) * 100.0 / \
+                            ((self.lines+line_inc) * self.cell_height)
         if self.columns != columns:
             # % horizontal  =         incremented width         * 100 /           initial width
-            horizontal_perc = ((self.columns - columns) * self.cell_width) * 100.0 / (self.columns * self.cell_width)
+            horizontal_perc = ((self.columns - columns ) * self.cell_width) * 100.0 / \
+                              ((self.columns+column_inc) * self.cell_width)
 
-        print(horizontal_perc)
         self.cell_width = self.cell_width + (self.cell_width * horizontal_perc) / 100.0
         self.cell_height = self.cell_height + (self.cell_height * vertical_perc) / 100.0
 
@@ -162,3 +193,14 @@ class Grid:
         column = int(x / self.cell_width)
         line = int(y / self.cell_height)
         return column, line
+
+    def check_cells(self, cells):
+        for cell in cells:
+            print(str(cell.column) + ";" + str(cell.line))
+
+    def add_cell(self, x, y, gapx, gapy):
+        column = int( (x - gapx) / self.cell_width)
+        line = int( (y - gapy) / self.cell_height)
+
+        if 0 < column < self.columns and 0 < line < self.lines and not self.is_alive(line, column):
+            self.cells.append(Cell(line, column))

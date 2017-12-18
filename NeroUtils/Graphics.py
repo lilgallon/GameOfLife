@@ -26,8 +26,8 @@ def draw_grid(screen, pygame, x, y, lines, columns, width, height, thickness, co
     :param thickness: thickness of a cell in the grid (outlines)
     :param color: color of the outline of the cells
     """
-    for line in range(0, lines - 1):
-        for column in range(0, columns - 1):
+    for line in range(0, lines):
+        for column in range(0, columns):
             draw_empty_rectangle(screen, pygame, x + (column * width), y + (line * height), width, height, thickness,
                                  color)
 
