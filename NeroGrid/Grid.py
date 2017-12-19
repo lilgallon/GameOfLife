@@ -165,12 +165,12 @@ class Grid:
 
         if self.lines != lines:
             # % vertical  =         incremented height         * 100 /           initial height
-            vertical_perc = ((self.lines - lines ) * self.cell_height) * 100.0 / \
-                            ((self.lines+line_inc) * self.cell_height)
+            vertical_perc = ((self.lines - lines) * self.cell_height) * 100.0 / \
+                            ((self.lines + line_inc) * self.cell_height)
         if self.columns != columns:
             # % horizontal  =         incremented width         * 100 /           initial width
-            horizontal_perc = ((self.columns - columns ) * self.cell_width) * 100.0 / \
-                              ((self.columns+column_inc) * self.cell_width)
+            horizontal_perc = ((self.columns - columns) * self.cell_width) * 100.0 / \
+                              ((self.columns + column_inc) * self.cell_width)
 
         self.cell_width = self.cell_width + (self.cell_width * horizontal_perc) / 100.0
         self.cell_height = self.cell_height + (self.cell_height * vertical_perc) / 100.0
@@ -190,17 +190,42 @@ class Grid:
         self.cells = new_cells
 
     def convert_to_grid_pos(self, x, y):
+        """
+        Convert a x;y position to a c;l position regardless of the grid
+        :param x:
+        :param y:
+        :return:
+        """
         column = int(x / self.cell_width)
         line = int(y / self.cell_height)
         return column, line
 
     def check_cells(self, cells):
+        """
+        Just a debug method...
+        :param cells:
+        """
         for cell in cells:
             print(str(cell.column) + ";" + str(cell.line))
 
-    def add_cell(self, x, y, gapx, gapy):
-        column = int( (x - gapx) / self.cell_width)
-        line = int( (y - gapy) / self.cell_height)
+    def update_cell(self, x, y, gapx, gapy):
+        """
+        Update the cell : if it is alive , then it dies, and if it is dead, it gets alive
+        And this, according to the x / y position in the window
+        :param x: x position in the window
+        :param y: y position in the window
+        :param gapx: initial x position of the grid
+        :param gapy: initial y position of the grid
+        """
+        column = int((x - gapx) / self.cell_width)
+        line = int((y - gapy) / self.cell_height)
 
-        if 0 < column < self.columns and 0 < line < self.lines and not self.is_alive(line, column):
-            self.cells.append(Cell(line, column))
+        if 0 < column < self.columns and 0 < line < self.lines:
+            if self.is_alive(line, column):
+                new_cells = []
+                for cell in self.cells:
+                    if cell != Cell(line, column):
+                        new_cells.append(cell)
+                self.cells = new_cells
+            else:
+                self.cells.append(Cell(line, column))

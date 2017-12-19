@@ -18,7 +18,7 @@ class Cell:
         self.column = column
 
     def __eq__(self, other):
-        if isinstance(other, self):
+        if isinstance(other, Cell):
             return other.line == self.line and other.column == self.column
         else:
             return False

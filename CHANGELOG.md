@@ -28,3 +28,7 @@ Some commit may not appear here since it fix / add little things.
 - ✨ Changed interaction (move with mouse left click, add a cell with mouse right click, day increment with space bar)
 - ✨ Grid doing 19x19 grid instead of 20x20 (python range(a,b) takes values from a to b-1 included)
 - 💫 Resizing
+
+### Update #7 (version 0) :
+- ✨ Improved interaction (right click on a living cell kills it)
+- 💫 Fixed __eq__ method of cell

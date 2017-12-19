@@ -60,7 +60,7 @@ def main():
                     start_x, start_y = pygame.mouse.get_pos()
                 elif event.button == 3:
                     x, y = pygame.mouse.get_pos()
-                    grid.add_cell(x, y, grid_x, grid_y)
+                    grid.update_cell(x, y, grid_x, grid_y)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
