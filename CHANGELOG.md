@@ -32,3 +32,11 @@ Some commit may not appear here since it fix / add little things.
 ### Update #7 (version 0) :
 - ✨ Improved interaction (right click on a living cell kills it)
 - 💫 Fixed __eq__ method of cell
+
+### Update #8 (version 0) : Beginning of the optimization
+- ✨ Inverted line and column to match with x and y order
+- ✨ Changed "cells" list to "alive_entities" and added a "dead_entities" list that contains every dead entity that could get alive with rule #2, because
+it is pointless to consider the other cells as dead since they will never get alive (no living cell is near).
+- ✨ Optimized update_cell cell method ( gained len(cells) iterations )
+- ✨ Optimized movement by adding an origin parameter to the grid drawer instead of moving every living cell ( gained len(cells) iterations)
+- ✨ Optimized is_alive method ( gained ~= len(cells) iterations )

@@ -25,12 +25,11 @@ Software used :
 
 
 ## Todo list
-- [x] Graphics utility using pygame (base)
-- [x] Cell class (base)
-- [x] Grid class (base)
+- [x] Graphics utility using pygame (basic)
+- [x] Cell class (basic)
+- [x] Grid class (basic)
 - [x] Law checkers
 - [x] Basic interaction handler
-- [ ] Dead cells algorithm optimization
 - [ ] New optimized cell management
 - [ ] Automatic animation
 - [ ] Advanced interaction (change the grid with the mouse / start / stop)

@@ -13,12 +13,12 @@
 
 
 class Cell:
-    def __init__(self, line, column):
-        self.line = line
+    def __init__(self, column, line):
         self.column = column
+        self.line = line
 
     def __eq__(self, other):
         if isinstance(other, Cell):
-            return other.line == self.line and other.column == self.column
+            return other.column == self.column and other.line == self.line
         else:
             return False
