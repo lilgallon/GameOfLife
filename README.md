@@ -18,6 +18,7 @@ Library used :
 
 Other documentation :
 - [Game of life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
+- [French doc](http://apprendre-python.com/)
 
 Software used :
 - [PyCharm](https://www.jetbrains.com/pycharm/)

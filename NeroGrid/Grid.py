@@ -14,6 +14,12 @@
 import NeroUtils.Graphics as Graphics
 from NeroGrid.Cell import Cell
 
+# TODO:
+# Big optimization
+# https://docs.python.org/2/tutorial/datastructures.html
+#
+# tuple = list that can't be modified
+# dictionary ~= c++ map http://apprendre-python.com/page-apprendre-dictionnaire-python
 
 class Grid:
     def __init__(self, cells, lines, columns, cell_width, cell_height, cell_thickness, cell_color):
