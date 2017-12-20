@@ -1,5 +1,5 @@
 # The G4me of life
-![Version 1](https://img.shields.io/badge/Version-0-red.svg)
+![Version 1](https://img.shields.io/badge/Version-1-red.svg)
 
 The game of life consists in 4 rules :
 
