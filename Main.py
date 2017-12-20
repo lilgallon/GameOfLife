@@ -16,7 +16,6 @@ from NeroGrid.Cell import Cell
 from NeroGrid.Grid import Grid
 
 
-# http://www.nerdparadise.com/programming/pygame/part1
 def main():
     pygame.init()
     done = False
@@ -74,6 +73,7 @@ def main():
                         grid.move(d_column, d_line)
                     left_clicking = False
                 if event.button == 3:
+                    grid.reset_update_cell()
                     right_clicking = False
 
             if event.type == pygame.MOUSEMOTION:
@@ -100,10 +100,10 @@ def main():
                 # down
                 elif event.key == 274:
                     grid.move(1, 0)
-                #right
+                # right
                 elif event.key == 275:
                     grid.move(0, 1)
-                #space
+                # space
                 elif event.key == pygame.K_SPACE:
                     # Grid
                     grid.check_rules()

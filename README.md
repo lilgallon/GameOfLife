@@ -1,5 +1,5 @@
 # The G4me of life
-![Version 0](https://img.shields.io/badge/Version-0-red.svg)
+![Version 1](https://img.shields.io/badge/Version-0-red.svg)
 
 The game of life consists in 4 rules :
 
@@ -25,14 +25,17 @@ Software used :
 
 
 ## Todo list
-- [x] Graphics utility using pygame (basic)
-- [x] Cell class (basic)
-- [x] Grid class (basic)
-- [x] Law checkers
-- [x] Basic interaction handler
-- [ ] New optimized cell management
+- [x] Grid class (basic) *Update 1*
+- [x] Cell class (basic) *Update 2*
+- [x] Graphics utility using pygame (basic) *Update 2*
+- [x] Law checkers *Update 3*
+- [x] Interaction (basic) *Update 6*
+- [x] Interaction (advanced) *Update 9*
+- [x] New optimized cell management *Update 10*
+- [ ] Test coverage
 - [ ] Automatic animation
-- [ ] Advanced interaction (change the grid with the mouse / start / stop)
+- [ ] User-friendly interaction (change the grid with the mouse / start / stop)
+- [ ] File loader
 
 
 ## Changelog

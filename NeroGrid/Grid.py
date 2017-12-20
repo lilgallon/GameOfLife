@@ -15,13 +15,6 @@ import NeroUtils.Graphics as Graphics
 from NeroGrid.Cell import Cell
 
 
-# TODO:
-# Big optimization
-# https://docs.python.org/2/tutorial/datastructures.html
-#
-# tuple = list that can't be modified
-# dictionary ~= c++ map http://apprendre-python.com/page-apprendre-dictionnaire-python
-
 class Grid:
     def __init__(self, alive_entities, columns, lines, cell_width, cell_height, cell_thickness, cell_color):
         self.alive_entities = alive_entities
@@ -35,6 +28,7 @@ class Grid:
         self.column_origin = 0
         self.line_origin = 0
         self.last_updated_cell = Cell(-6000, -6000)
+        self.edit_mode = 0
 
     def draw(self, screen, pygame, x, y):
         """
@@ -55,77 +49,68 @@ class Grid:
         Updates the grid according to the rules.
         """
         new_alive_entities = []
-        # pass parameter by reference??
-        new_alive_entities.extend(self.check_r123())
-        new_alive_entities.extend(self.check_r4())
+        self.check_r123(new_alive_entities)
+        self.check_r4(new_alive_entities)
         self.alive_entities = new_alive_entities
 
-    def check_r123(self):
+    def check_r123(self, new_alive_entities):
         """
         Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
         Any live cell with two or three live neighbours lives on to the next generation.
         Any live cell with more than three live neighbours dies, as if by overpopulation.
         """
-        new_alive_entities = []
         for cell in self.alive_entities:
-            if self.count_neighbours(cell.column, cell.line) == 2 or self.count_neighbours(cell.column, cell.line) == 3:
-                new_alive_entities.append(Cell(cell.column, cell.line))
+            if self.count_neighbours(cell) == 2 or self.count_neighbours(cell) == 3:
+                new_alive_entities.append(cell)
 
-        return new_alive_entities
-
-    def check_r4(self):
+    def check_r4(self, new_alive_entities):
         """
         Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
         """
-        dead_entities = []
-        # Optimized algorithm for small grid
-        for column in range(0, self.columns):
-            for line in range(0, self.lines):
-                if not self.is_alive(column, line):
-                    dead_entities.append(Cell(column, line))
 
         # Optimized algorithm for huge grid
         # For every alive cell, we look at all their neighbours to
         # see if they are dead.
-        # for cell in self.alive_entities:
-        #     for l_inc in range(-1, 2):
-        #         for c_inc in range(-1, 2):
-        #             if not self.is_alive(cell.line + l_inc, cell.column + c_inc):
-        #                 dead_entities.append(cell)
 
-        new_alive_entities = []
-        for cell in dead_entities :
-            if self.count_neighbours(cell.column, cell.line) == 3:
-                new_alive_entities.append(cell)
+        for cell in self.alive_entities:
+            for l_inc in range(-1, 2):
+                for c_inc in range(-1, 2):
+                    neighbour = Cell(cell.column + c_inc, cell.line + l_inc)
+                    if not self.is_alive(neighbour) \
+                            and self.count_neighbours(neighbour) == 3 \
+                            and not self.contains(new_alive_entities, neighbour):
+                        new_alive_entities.append(neighbour)
 
-        return new_alive_entities
-
-    def is_alive(self, column, line):
+    def is_alive(self, cell):
         """
-        Returns if the
-        :param column:
-        :param line:
+        Returns if the cell contains an alive entity
+        :param cell: cell
+        :return:
+        """
+        return self.contains(self.alive_entities, cell)
+
+    def contains(self, cells, cell):
+        """
+        Returns if the cell is in the list cells
+        :param cells: list
+        :param cell: cell
         :return:
         """
         try:
-            self.alive_entities.index(Cell(column, line))
+            cells.index(cell)
             return True
         except ValueError:
             return False
 
-    def count_neighbours(self, column, line):
+    def count_neighbours(self, cell):
         """
-        Count the neighbours of the cell. Returns -1 if there is an error.
-        :param line: line of the cell
-        :param column: column of the cell
+        Count the neighbours of the cell.
+        :param cell: the cell
         :return: number of neighbours of the specified cell
         """
-        if line < 0 or line >= self.lines:
-            print("The line #" + str(line) + " is not in the defined range. (0;" + str(self.lines - 1) + ")")
-            return -1
-        if column < 0 or column >= self.columns:
-            print("The column #" + str(column) + " is not in the defined range. (0;" + str(self.lines - 1) + ")")
-            return -1
+        line = cell.line
+        column = cell.column
+
         counter = 0
         for cell in self.alive_entities:
             # X and Y and not Z
@@ -162,15 +147,15 @@ class Grid:
 
         if self.lines != lines:
             # % vertical  =         incremented height         * 100 /           initial height
-            vertical_perc = ((self.lines - lines) * self.cell_height) * 100.0 / \
+            vertical_percentage = ((self.lines - lines) * self.cell_height) * 100.0 / \
                             ((self.lines + line_inc) * self.cell_height)
         if self.columns != columns:
             # % horizontal  =         incremented width         * 100 /           initial width
-            horizontal_perc = ((self.columns - columns) * self.cell_width) * 100.0 / \
+            horizontal_percentage = ((self.columns - columns) * self.cell_width) * 100.0 / \
                               ((self.columns + column_inc) * self.cell_width)
 
-        self.cell_width = self.cell_width + (self.cell_width * horizontal_perc) / 100.0
-        self.cell_height = self.cell_height + (self.cell_height * vertical_perc) / 100.0
+        self.cell_width = self.cell_width + (self.cell_width * horizontal_percentage) / 100.0
+        self.cell_height = self.cell_height + (self.cell_height * vertical_percentage) / 100.0
 
         self.lines = lines
         self.columns = columns
@@ -195,19 +180,14 @@ class Grid:
         line = int(y / self.cell_height)
         return column, line
 
-    # TODO: remove
-    def check_cells(self, cells):
-        """
-        Just a debug method...
-        :param cells:
-        """
-        for cell in cells:
-            print(str(cell.column) + ";" + str(cell.line))
-
     def update_cell(self, x, y):
         """
         Update the cell : if it is alive , then it dies, and if it is dead, it gets alive
         And this, according to the x / y position in the window
+        Edit mode stands for :
+        0: waiting for the mode selection
+        1: delete mode
+        2: create mode
         :param x: x position in the window
         :param y: y position in the window
         """
@@ -217,9 +197,19 @@ class Grid:
         if self.last_updated_cell == Cell(column, line):
             return
 
-        if 0 < column < self.columns and 0 < line < self.lines:
+        if 0 <= column < self.columns and 0 <= line < self.lines:
             self.last_updated_cell = Cell(column, line)
-            if self.is_alive(column - self.column_origin, line - self.line_origin):
+            if self.is_alive(Cell(column - self.column_origin, line - self.line_origin)) and self.edit_mode != 2:
                 self.alive_entities.remove(Cell(column - self.column_origin, line - self.line_origin))
-            else:
+                self.edit_mode = 1
+            elif self.edit_mode != 1:
                 self.alive_entities.append(Cell(column - self.column_origin, line - self.line_origin))
+                self.edit_mode = 2
+
+    def reset_update_cell(self):
+        """
+        Used to reset the cell update : when the mouse is released we want to say that we can kill / create the last
+        modified cell.
+        """
+        self.last_updated_cell = Cell(-6000, -6000)
+        self.edit_mode = 0

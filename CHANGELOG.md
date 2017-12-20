@@ -44,3 +44,13 @@ it is pointless to consider the other cells as dead since they will never get al
 ### Update #9 (version 0) :
 - 💫 Fixed add / remove entity on the cursor that always created a new cell instead of killing it if it is alive
 - ✨ Interaction: it is now possible to add / remove entities by keeping left click down
+
+### Update #10 (version 1) End of the optimization:
+- 💫 It is now possible to add / kill an entity in the first column and in the first line
+- 💫 Fixed a duplication bug in the alive entities that could slow the calculations when having a lot of entities alive
+- ✨ Huge optimization: for the rule #4, instead of looking at every dead entity, we look at only the dead entity that
+could get alive. So we look at the neighbours of the alive entities.
+- ✨ Interaction: it is now possible to delete the last added entity, and to add the last deleted entity
+- ✨ Interaction: the system now detects automatically if the user wants to delete or to add entities
+- ✨ Simplified methods by removing column and line and putting cell instead
+- ✨ Cell class by defining operators
