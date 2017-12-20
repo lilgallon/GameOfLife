@@ -41,7 +41,8 @@ def main():
     font = pygame.font.Font(None, 40)
     text = font.render(str(it), 1, (0, 0, 0))
 
-    clicking = False
+    left_clicking = False
+    right_clicking = False
     start_x = 0
     start_y = 0
 
@@ -56,24 +57,27 @@ def main():
                 elif event.button == 5:
                     grid.set_size(grid.columns - 1, grid.lines - 1)
                 elif event.button == 1:
-                    clicking = True
+                    left_clicking = True
                     start_x, start_y = pygame.mouse.get_pos()
                 elif event.button == 3:
+                    right_clicking = True
                     x, y = pygame.mouse.get_pos()
                     grid.update_cell(x - grid_x, y - grid_y)
 
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
-                    if clicking:
+                    if left_clicking:
                         end_x, end_y = pygame.mouse.get_pos()
                         d_x = start_x - end_x
                         d_y = start_y - end_y
                         d_column, d_line = grid.convert_to_grid_pos(d_x, d_y)
                         grid.move(d_column, d_line)
-                    clicking = False
+                    left_clicking = False
+                if event.button == 3:
+                    right_clicking = False
 
             if event.type == pygame.MOUSEMOTION:
-                if clicking:
+                if left_clicking:
                     end_x, end_y = pygame.mouse.get_pos()
                     d_x = start_x - end_x
                     d_y = start_y - end_y
@@ -82,6 +86,9 @@ def main():
                         grid.move(d_column, d_line)
                         start_x = end_x
                         start_y = end_y
+                if right_clicking:
+                    x, y = pygame.mouse.get_pos()
+                    grid.update_cell(x - grid_x, y - grid_y)
 
             if event.type == pygame.KEYDOWN:
                 # up

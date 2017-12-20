@@ -34,6 +34,7 @@ class Grid:
         self.cell_color = cell_color
         self.column_origin = 0
         self.line_origin = 0
+        self.last_updated_cell = Cell(-6000, -6000)
 
     def draw(self, screen, pygame, x, y):
         """
@@ -120,10 +121,10 @@ class Grid:
         :return: number of neighbours of the specified cell
         """
         if line < 0 or line >= self.lines:
-            print("The line #" + str(line) + " is not in the defined range. (0;" + str(self.lines) - 1 + ")")
+            print("The line #" + str(line) + " is not in the defined range. (0;" + str(self.lines - 1) + ")")
             return -1
         if column < 0 or column >= self.columns:
-            print("The column #" + str(column) + " is not in the defined range. (0;" + str(self.lines) - 1 + ")")
+            print("The column #" + str(column) + " is not in the defined range. (0;" + str(self.lines - 1) + ")")
             return -1
         counter = 0
         for cell in self.alive_entities:
@@ -213,8 +214,12 @@ class Grid:
         column = int(x / self.cell_width)
         line = int(y / self.cell_height)
 
+        if self.last_updated_cell == Cell(column, line):
+            return
+
         if 0 < column < self.columns and 0 < line < self.lines:
-            if self.is_alive(column, line):
+            self.last_updated_cell = Cell(column, line)
+            if self.is_alive(column - self.column_origin, line - self.line_origin):
                 self.alive_entities.remove(Cell(column - self.column_origin, line - self.line_origin))
             else:
                 self.alive_entities.append(Cell(column - self.column_origin, line - self.line_origin))

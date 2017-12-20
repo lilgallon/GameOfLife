@@ -40,3 +40,7 @@ it is pointless to consider the other cells as dead since they will never get al
 - ✨ Optimized update_cell cell method ( gained len(cells) iterations )
 - ✨ Optimized movement by adding an origin parameter to the grid drawer instead of moving every living cell ( gained len(cells) iterations)
 - ✨ Optimized is_alive method ( gained ~= len(cells) iterations )
+
+### Update #9 (version 0) :
+- 💫 Fixed add / remove entity on the cursor that always created a new cell instead of killing it if it is alive
+- ✨ Interaction: it is now possible to add / remove entities by keeping left click down
